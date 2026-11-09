@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --bg:#eef5ea; --sf:#fff; --ink:#111611; --mut:#5f6d61; --g:#bfdcb6; --g2:#dcebd5; --line:#cfdfc9; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#0f130f; --sf:#171c17; --ink:#eef4eb; --mut:#9fb0a1; --g:#355c3d; --g2:#1f2d21; --line:#2a352b; }
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body { @apply bg-bg font-sans text-ink antialiased overflow-x-hidden; font-size: 17px; line-height: 1.6; }
+h1, h2, h3 { @apply font-display font-light; letter-spacing: -0.025em; line-height: 1.05; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+svg.art { stroke: var(--ink); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
+
+@layer components {
+  .pill { @apply relative z-0 inline-flex items-center gap-2 overflow-hidden rounded-full border border-ink px-5 py-2.5 font-semibold transition-colors duration-300; }
+  .pill::before { content: ""; @apply absolute inset-0 -z-10 translate-y-full bg-ink transition-transform duration-500; }
+  .pill:hover::before { transform: none; }
+  .pill:hover { color: var(--bg); }
+  .pill-dark { @apply bg-ink text-bg; }
+  .pill-dark::before { background: var(--g); }
+  .pill-dark:hover { color: #111611; }
+  .pill:disabled { @apply opacity-40 pointer-events-none; }
+  .chip { @apply rounded-full border border-ink px-3.5 py-1.5 text-[.92rem] transition-colors; }
+  .chip[data-on="true"] { @apply bg-ink text-bg; }
+  .chip:disabled { @apply cursor-not-allowed line-through opacity-35; }
+  .field { @apply w-full rounded-xl border border-ink bg-sf px-3.5 py-2.5 text-ink; }
+  .lc { position: absolute; top: 12%; left: 50%; will-change: transform, opacity; }
+  .lc .im { @apply grid aspect-[4/5] place-items-center rounded-[26px] bg-g2 transition-colors duration-500; }
+  .lc[data-act="1"] .im { background: var(--g); }
+  .lc svg { @apply w-3/5 pointer-events-none; animation: bob 6s ease-in-out infinite; }
+}
+
+@keyframes rise { to { transform: none; } }
+@keyframes pop { from { transform: scale(.88); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes bob { 50% { transform: translateY(-12px) rotate(2deg); } }
+.hero-word { display: inline-block; transform: translateY(110%); animation: rise 1s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(1.3s + var(--n) * 80ms); }
+.hero-loop { opacity: 0; animation: pop 1.2s cubic-bezier(.2,.8,.2,1) 1.7s forwards; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01s !important; animation-delay: 0s !important; transition: none !important; } }
